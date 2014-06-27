@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- リニアレイアウト(横並び) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <!-- 文字数表示用テキスト -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_charscount" />
+
+        <!-- 文字数表示 -->
+
+        <TextView
+            android:id="@+id/tv_charscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="140" />
+    </LinearLayout>
+
+    <!-- つぶやき入力領域 -->
+
+    <EditText
+        android:id="@+id/et_tweet"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:gravity="top"
+        android:padding="5dp"
+        android:inputType="textNoSuggestions" />
+
+    <!-- リニアレイアウト(横並び) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <!-- 戻るボタン -->
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/btn_back" />
+
+        <!-- つぶやくボタン -->
+
+        <Button
+            android:id="@+id/btn_tweet"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/btn_tweet" />
+    </LinearLayout>
+
+</LinearLayout>

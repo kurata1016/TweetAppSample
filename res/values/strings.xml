@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TweetAppTweet</string>
+
+    <!-- MainActivity -->
+    <string name="activity_title_main">Twitter Auth Sample</string>
+    <string name="button_auth_text">auth</string>
+    <string name="button_send_pin_text">send</string>
+    <string name="button_showTimeline">show timeline</string>
+    <string name="button_tweet">Tweet!!</string>
+    <string name="edittext_pin_hint">PIN</string>
+    <string name="toast_oauth_complete_text">Authorized</string>
+    <string name="toast_oauth_failed_text">Auth failed</string>
+    <string name="dialog_title_text">Wait</string>
+    <string name="dialog_message_text">preparing\.\.\.</string>
+    <string name="greet_me">greeting</string>
+    
+    <!-- TweetActivity -->
+    <string name="tv_charscount">Number of Characters</string>
+    <string name="btn_back">BUCK</string>
+    <string name="btn_tweet">Tweet!</string>
+
+    <!-- Twitter API Keys -->
+    <string name="twitter_consumer_key">VS4jKesqvk5kRmuCDzNIDNafH</string>
+    <string name="twitter_consumer_key_secret">qBiXURvgl9svfFOB3IXdRBWRK5v71Cqu0J7xs2Qt2grNztKYJI</string>
+
+    <!-- Shared preferences -->
+    <string name="shared_pref_name">twitter_auth_sample</string>
+    <string name="shared_pref_key_twitter_access_token">twitter_access_token</string>
+    <string name="shared_pref_key_twitter_access_token_secret">twitter_access_token_secret</string>
+
+</resources>
