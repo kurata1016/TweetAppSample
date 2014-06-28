@@ -131,6 +131,7 @@ public class TweetActivity extends Activity {
 				break;
 			case BTN_TWEET:
 				task.execute();
+				finish();
 				break;
 			}
 		}

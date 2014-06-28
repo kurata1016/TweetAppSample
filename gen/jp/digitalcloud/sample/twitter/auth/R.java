@@ -29,16 +29,16 @@ public final class R {
     }
     public static final class id {
         public static final int btn_back=0x7f080007;
-        public static final int btn_tweet=0x7f08000a;
+        public static final int btn_tweet=0x7f080008;
         public static final int buttonAuth=0x7f080002;
         public static final int buttonSendPin=0x7f080003;
         public static final int button_showTimeline=0x7f080005;
         public static final int button_tweet=0x7f080006;
         public static final int editTextPin=0x7f080004;
-        public static final int et_tweet=0x7f080009;
+        public static final int et_tweet=0x7f08000a;
         public static final int greet_me_button=0x7f080000;
         public static final int message=0x7f080001;
-        public static final int tv_charscount=0x7f080008;
+        public static final int tv_charscount=0x7f080009;
     }
     public static final class layout {
         public static final int accounts_tester=0x7f030000;
@@ -61,21 +61,22 @@ public final class R {
         public static final int dialog_title_text=0x7f060009;
         public static final int edittext_pin_hint=0x7f060006;
         public static final int greet_me=0x7f06000b;
-        public static final int shared_pref_key_twitter_access_token=0x7f060013;
-        public static final int shared_pref_key_twitter_access_token_secret=0x7f060014;
+        public static final int shared_pref_key_twitter_access_token=0x7f060014;
+        public static final int shared_pref_key_twitter_access_token_secret=0x7f060015;
         /**  Shared preferences 
          */
-        public static final int shared_pref_name=0x7f060012;
+        public static final int shared_pref_name=0x7f060013;
         public static final int text_count=0x7f06000d;
         public static final int toast_oauth_complete_text=0x7f060007;
         public static final int toast_oauth_failed_text=0x7f060008;
         /**  TweetActivity 
          */
         public static final int tv_charscount=0x7f06000c;
+        public static final int tweet=0x7f060010;
         /**  Twitter API Keys 
          */
-        public static final int twitter_consumer_key=0x7f060010;
-        public static final int twitter_consumer_key_secret=0x7f060011;
+        public static final int twitter_consumer_key=0x7f060011;
+        public static final int twitter_consumer_key_secret=0x7f060012;
     }
     public static final class style {
         /** 

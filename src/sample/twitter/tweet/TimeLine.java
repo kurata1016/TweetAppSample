@@ -1,7 +1,9 @@
 package sample.twitter.tweet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import jp.digitalcloud.sample.twitter.auth.R;
 import twitter4j.ResponseList;
@@ -11,6 +13,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -36,6 +39,7 @@ public class TimeLine extends ListActivity {
 	String AccessTokenSecret;
 	// ボタンタグ
 	final String BTN_BACK = "btn_back";
+	final String BTN_TWEET = "btn_tweet";
 	// 非同期タスク
 	AsyncTask<Void, Void, List<String>> task;
 
@@ -50,6 +54,9 @@ public class TimeLine extends ListActivity {
 		Button btn_back = (Button) findViewById(R.id.btn_back);
 		btn_back.setTag(BTN_BACK);
 		btn_back.setOnClickListener(onBtnClickListener);
+		Button btn_tweet = (Button) findViewById(R.id.btn_tweet);
+		btn_tweet.setTag(BTN_TWEET);
+		btn_tweet.setOnClickListener(onBtnClickListener);
 
 		// listadapter設定
 		adapter = new TweetAdapter(this);
@@ -76,7 +83,10 @@ public class TimeLine extends ListActivity {
 					for (twitter4j.Status status : timeline) {
 						String userName = status.getUser().getScreenName();
 						String tweet = status.getText();
-						list.add("ユーザーID：" + userName + "\r\n" + "tweet：" + tweet);
+						// Date型をString型へ
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm",Locale.JAPAN);
+						String time = sdf.format(status.getCreatedAt());
+						list.add("ユーザーID：" + userName + "\r\n" + "tweet：" + "\r\n" + tweet + "\r\n" + "time：" + time);
 					}
 					return list;
 				} catch (TwitterException e) {
@@ -102,7 +112,7 @@ public class TimeLine extends ListActivity {
 	}
 
 	private class TweetAdapter extends ArrayAdapter<String> {
-
+		//コンストラクタ
         public TweetAdapter(Context context) {
             super(context, android.R.layout.simple_list_item_1);
         }
@@ -144,10 +154,15 @@ public class TimeLine extends ListActivity {
 			case BTN_BACK:
 				finish();
 				break;
+			case BTN_TWEET:
+				Intent intent = new Intent(TimeLine.this,TweetActivity.class);
+				startActivity(intent);
+				break;
 			}
 		}
 	};
 
+	//トースト表示メソッド
 	private void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
