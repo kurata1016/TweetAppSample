@@ -9,10 +9,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class TweetActivity extends Activity {
@@ -24,11 +27,13 @@ public class TweetActivity extends Activity {
 	String AccessToken;
 	// AccessTokenSecret
 	String AccessTokenSecret;
-	// 　ボタンタグ
+	// ボタンタグ
 	final String BTN_BACK = "btn_back";
 	final String BTN_TWEET = "btn_tweet";
 	// 非同期タスク
 	AsyncTask<String, Void, Boolean> task;
+	// ツイート内容初期化
+	EditText et = null;
 
 	// onCreateメソッド(画面初期表示イベント)
 	@Override
@@ -44,6 +49,33 @@ public class TweetActivity extends Activity {
 		Button btn_tweet = (Button) findViewById(R.id.btn_tweet);
 		btn_tweet.setTag(BTN_TWEET);
 		btn_tweet.setOnClickListener(onBtnClickListener);
+		
+		// editText取得
+		et = (EditText) findViewById(R.id.et_tweet);
+		// editTextにイベントリスナー登録
+		et.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				//　入力可能文字数表示TextView取得
+				TextView charcounts = (TextView) findViewById(R.id.tv_charscount);
+				// 入力可能文字数設定
+				int count = 140 - s.length();
+				charcounts.setText(String.valueOf(count));
+				// 140文字以上入力されたらトースト表示
+				if(count < 0){
+					Toast.makeText(TweetActivity.this, "ツイートは140文字までです", Toast.LENGTH_SHORT).show();;
+				}
+			}
+		});
 
 		// preferenceからAccessToken取得
 		SharedPreferences pref = getSharedPreferences(this.getString(R.string.shared_pref_name), MODE_PRIVATE);
@@ -64,7 +96,7 @@ public class TweetActivity extends Activity {
 			@Override
 			protected Boolean doInBackground(String... params) {
 				// ツイート内容取得
-				EditText et = (EditText) findViewById(R.id.et_tweet);
+				et = (EditText) findViewById(R.id.et_tweet);
 				// ツイート処理
 				try {
 					tw.updateStatus(et.getText().toString());

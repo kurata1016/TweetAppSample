@@ -25,6 +25,7 @@
         </activity>
         
         <activity android:name="sample.twitter.tweet.TweetActivity" />
+        <activity android:name="sample.twitter.tweet.TimeLine" />
     </application>
 
 </manifest>

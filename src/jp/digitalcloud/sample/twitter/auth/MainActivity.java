@@ -1,5 +1,6 @@
 package jp.digitalcloud.sample.twitter.auth;
 
+import sample.twitter.tweet.TimeLine;
 import sample.twitter.tweet.TweetActivity;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -35,6 +36,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		Intent intent ;
 		switch (v.getId()) {
 		case R.id.buttonAuth:
 			mTwitter = new TwitterFactory().getInstance();
@@ -51,9 +53,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			}
 			break;
 		case R.id.button_showTimeline:
+			intent = new Intent(MainActivity.this,TimeLine.class);
+			startActivity(intent);
 			break;
 		case R.id.button_tweet:
-			Intent intent = new Intent(MainActivity.this,TweetActivity.class);
+			intent = new Intent(MainActivity.this,TweetActivity.class);
 			startActivity(intent);
 			break;
 		default:

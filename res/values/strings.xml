@@ -17,7 +17,8 @@
     <string name="greet_me">greeting</string>
     
     <!-- TweetActivity -->
-    <string name="tv_charscount">Number of Characters</string>
+    <string name="tv_charscount">Number of Characters:</string>
+    <string name="text_count">140</string>
     <string name="btn_back">BUCK</string>
     <string name="btn_tweet">Tweet!</string>
 
