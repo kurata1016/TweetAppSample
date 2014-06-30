@@ -19,7 +19,7 @@
     <!-- TweetActivity -->
     <string name="tv_charscount">Number of Characters:</string>
     <string name="text_count">140</string>
-    <string name="btn_back">BUCK</string>
+    <string name="btn_back">戻る</string>
     <string name="btn_tweet">Tweet!</string>
     <string name="tweet">つぶやく</string>
     <string name="btn_reload">更新</string>

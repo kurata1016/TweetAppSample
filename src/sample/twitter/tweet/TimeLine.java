@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.loopj.android.image.SmartImageView;
 
 import jp.digitalcloud.sample.twitter.auth.R;
@@ -16,7 +20,6 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,13 +30,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TimeLine extends ListActivity {
+public class TimeLine extends Activity {
+	// listview
+	PullToRefreshListView listview;
 	// twitterオブジェクト
 	Twitter tw;
 	// adapter
@@ -55,6 +61,7 @@ public class TimeLine extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// レイアウト設定ファイル指定
 		setContentView(R.layout.timeline);
 
@@ -69,14 +76,32 @@ public class TimeLine extends ListActivity {
 		btn_reload.setTag(BTN_RELOAD);
 		btn_reload.setOnClickListener(onBtnClickListener);
 
+		// ListView取得
+//		ListView listview = getListView();
+		listview = (PullToRefreshListView) findViewById(R.id.listview);
+		
 		// listadapter設定
 		adapter = new TweetAdapter(this);
-		setListAdapter(adapter);
+		listview.setAdapter(adapter);
+		
+		// PulltoRefresh設定
+		listview.setMode(Mode.BOTH);
+		listview.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
-		// ListView取得
-		ListView listview = getListView();
-		listview.addFooterView(getLayoutInflater().inflate(R.layout.listview_footer, null));
-		listview.setOnScrollListener(new ListOnScrollListener());
+			@Override
+			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+				showToast("タイムライン更新中");
+				reloadTimeLine();
+				new FinishRefresh().execute();
+			}
+
+			@Override
+			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+				showToast("タイムライン更新中");
+				reloadBackTimeLine();
+				new FinishRefresh().execute();
+			}
+		});
 
 		// twitterオブジェクト設定
 		tw = getTwitterInstance();
@@ -85,6 +110,7 @@ public class TimeLine extends ListActivity {
 		reloadTimeLine();
 	}
 
+	// タイムライン更新
 	private void reloadTimeLine() {
 		// ネットワーク通信は非同期処理
 		task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
@@ -127,7 +153,7 @@ public class TimeLine extends ListActivity {
 					for (twitter4j.Status status : result) {
 						adapter.add(status);
 					}
-					getListView().setSelection(0);
+					listview.getRefreshableView().setSelection(0);
 				} else {
 					showToast("タイムラインの取得に失敗しました");
 				}
@@ -135,6 +161,72 @@ public class TimeLine extends ListActivity {
 		};
 		task.execute();
 	}
+	
+	// 過去のタイムライン更新
+	private void reloadBackTimeLine() {
+		// ネットワーク通信は非同期処理
+		task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
+
+			@SuppressWarnings("unused")
+			@Override
+			protected List<twitter4j.Status> doInBackground(Void... params) {
+				try {
+					// HomeTimeLineオブジェクト取得
+					ResponseList<twitter4j.Status> timeline = null;
+					ArrayList<twitter4j.Status> list = new ArrayList<>();
+					Paging pages = null;
+
+					// 初回取得かどうか
+					if (pages == null) {
+						pages = new Paging(1, 20);
+						// 2回目以降
+					} else {
+						// 最後のつぶやき取得
+						twitter4j.Status s = timeline.get(timeline.size());
+						// Pagingオブジェクト取得
+						pages = new Paging();
+						pages.setMaxId(s.getId());
+					}
+
+					// Pagingオブジェクトで取得済みのつぶやき以降のつぶやきを取得
+					timeline = tw.getHomeTimeline(pages);
+
+					return timeline;
+				} catch (TwitterException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(List<twitter4j.Status> result) {
+				if (result != null) {
+					adapter.clear();
+					for (twitter4j.Status status : result) {
+						adapter.add(status);
+					}
+					listview.getRefreshableView().setSelection(0);
+				} else {
+					showToast("タイムラインの取得に失敗しました");
+				}
+			}
+		};
+		task.execute();
+	}
+	
+	//リスト更新終了
+    private class FinishRefresh extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+ 
+        @Override
+        protected void onPostExecute(Void result){
+        	//更新アニメーション終了
+            listview.onRefreshComplete();
+        }
+    }
 
 	private class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 		// レイアウトインフレーター取得
