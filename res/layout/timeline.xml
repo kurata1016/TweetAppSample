@@ -34,5 +34,13 @@
     android:layout_height="50dp"
     android:layout_gravity="center_horizontal|bottom" />
   
+  <!-- 更新ボタン -->
+  <Button
+    android:id="@+id/btn_reload"
+    android:text="@string/btn_reload"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_gravity="center_horizontal|bottom" />
+  
   </LinearLayout>
 </LinearLayout>

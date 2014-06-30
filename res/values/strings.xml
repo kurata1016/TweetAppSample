@@ -22,6 +22,7 @@
     <string name="btn_back">BUCK</string>
     <string name="btn_tweet">Tweet!</string>
     <string name="tweet">つぶやく</string>
+    <string name="btn_reload">更新</string>
 
     <!-- Twitter API Keys -->
     <string name="twitter_consumer_key">VS4jKesqvk5kRmuCDzNIDNafH</string>
